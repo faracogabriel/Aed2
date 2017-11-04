@@ -17,12 +17,12 @@ private:
 public:
 
     No(){
-        //this-prox=nnull
+        //this-prox=null
     }
 
     T getItem() {
         return this->item;
-        //thhis-prox=null
+        //this-prox=null
     }
 
     void setItem(T item) {
@@ -182,8 +182,14 @@ public:
         l.pos(r+1)->setItem(x);
         int i=p, j=r+1;
         while (true){
-            do {i=i+1;} while (l.pos(i)->getItem()<x);
-            do{j=j-1;} while (l.pos(j)->getItem()>x);
+            do {
+                i=i+1;
+            } while (l.pos(i)->getItem()<x);
+            
+            do {
+                j=j-1;
+            } while (l.pos(j)->getItem()>x);
+            
             if (i<j){
                 int aux1=l.pos(i)->getItem();
                 l.pos(i)->setItem(l.pos(j)->getItem());
@@ -239,14 +245,16 @@ public:
         Fila<Vertice> fila;
         Vertice *predecessor = new Vertice[this->ordem+1];
         Lista<Vertice> menorCaminho;
-
+        //adicionar distancia
         
         this->ordenaListaAdj();
         this->colorir();
         for(int v=1; v<=this->ordem; v++){
             predecessor[v] = NIL;
+            //e setar distncia
         }
         this->cor[vertInicial] = cinza;
+        //distancia origem é 0;
         predecessor[vertInicial] = NIL;
         fila.enfileira(vertInicial);
 
@@ -256,19 +264,27 @@ public:
                 Vertice v = this->adj[u].pos(i)->getItem();
                 if (this->cor[v]==branco){
                     this->cor[v] = cinza;
+                    //incrementa distancia
+                    /// aux do menor caminho
                     predecessor[v] = u;
                     fila.enfileira(v);
                 }
             }
             this->cor[u] = preto;
         }
-        Vertice aux = vertFinal;
+
+        ///Menor caminho
+        //---------melhor separar
+        // falta verificar se é igual ao rei
+        Vertice aux = vertFinal; /// declaracao subir
         while(aux != vertInicial){
             menorCaminho.insere(aux);
             aux = predecessor[aux];
         }
         menorCaminho.insere(vertInicial);
-        return menorCaminho;
+        return menorCaminho; //RunBFS já retorna o menor caminho
+        ///----------
+        //fazer um mostra bfs para teste
     }
 
 
